@@ -22,4 +22,10 @@ pipeline {
         }
     }
 
+    post {
+        success {
+            archiveArtifacts artifacts: './curl', allowEmptyArchive: true
+        }
+    }
+}
  

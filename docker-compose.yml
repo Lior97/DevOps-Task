@@ -1,0 +1,84 @@
+version: '3.8'
+
+
+
+services:
+
+  jenkins-server:
+
+    container_name: jenkins-server
+
+    image: jenkins/jenkins
+
+    ports:
+
+      - "8080:8080"
+
+      - "50000:50000"
+
+    networks:
+
+      - jenkins-network
+
+      - wan
+
+
+
+  jenkins-slave:
+
+    image: jenkins/inbound-agent
+
+    init: true
+
+    environment:
+
+      - JENKINS_URL=http://jenkins-server:8080
+
+      - JENKINS_SECRET=450d2e7e5855a6fa3c79da0b7d9679af3518caf88a542039ef6534f5262b1709
+
+      - JENKINS_AGENT_NAME=agent
+
+    networks:
+
+      - jenkins-network
+
+    restart: always
+
+
+
+networks:
+
+  jenkins-network:
+
+    driver: bridge
+
+
+
+  wan:
+
+    driver: bridge
+
+    ipam:
+
+      driver: default
+
+      config:
+
+        - subnet: "192.168.1.0/24"
+
+
+
+  lan:
+
+    driver: bridge
+
+    ipam:
+
+      driver: default
+
+      config:
+
+        - subnet: "192.168.2.0/24"
+
+
+

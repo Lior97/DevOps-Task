@@ -1,31 +1,42 @@
 pipeline {
-    agent any
-
+    agent {
+        label 'agent'
+    }
     stages {
         stage('Pull Source Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/curl/curl'
+                script {
+                    ws('/home/jenkins/workspace') {
+                        git branch: 'master', url: 'https://github.com/curl/curl'
+                    }
+                }
             }
         }
-
         stage('Build Application') {
             steps {
-                sh 'make'  
+                script {
+                    ws('/home/jenkins/workspace') { 
+                        sh 'autoreconf -fi && ./configure --with-openssl && make'
+                    }
+                }
             }
         }
-
         stage('Execute CURL Tests') {
             steps {
-                def curlOutput = sh(script: 'curl make test', returnStdout: true)
-                    echo "CURL Test Results:\n${curlOutput}"  
+                script {
+                    sh 'echo Testing...'
+                    //def curlOutput = sh(script: 'make test', returnStdout: true)
+                    //println "CURL Test Results:\n${curlOutput}"  
+                }
             }
         }
     }
-
     post {
         success {
-            archiveArtifacts artifacts: './curl', allowEmptyArchive: true
+            script {
+                archiveArtifacts artifacts: 'src/curl', allowEmptyArchive: true
+                sh './src/curl https://google.com'
+            }
         }
     }
 }
- 

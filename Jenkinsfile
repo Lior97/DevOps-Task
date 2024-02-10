@@ -15,7 +15,7 @@ pipeline {
         stage('Build Application') {
             steps {
                 script {
-                    ws('/home/jenkins/workspace') { 
+                    ws('/home/jenkins/workspace') {
                         sh 'autoreconf -fi && ./configure --with-openssl && make'
                     }
                 }

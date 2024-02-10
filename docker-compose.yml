@@ -12,11 +12,11 @@ services:
       - wan
 
   jenkins-slave:
-    image: jenkins/inbound-agent
+    image: lioragent:1
     init: true
     environment:
       - JENKINS_URL=http://jenkins-server:8080
-      - JENKINS_SECRET=450d2e7e5855a6fa3c79da0b7d9679af3518caf88a542039ef6534f5262b1709
+      - JENKINS_SECRET=f2c5d4fb308e28b3bf008572b56d0a8d328263e4f1ecace34214fcee44a9e3a3
       - JENKINS_AGENT_NAME=agent
     networks:
       - lan

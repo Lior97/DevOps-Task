@@ -5,6 +5,7 @@ pipeline {
             steps {
                 ws('/home/jenkins/workspace') {
                     script {
+                        sh 'echo Pulling curl repo from github...'
                         git branch: 'master', url: 'https://github.com/curl/curl'
                     }
                     stash name: 'code', includes: '**/*'
@@ -17,6 +18,7 @@ pipeline {
                 ws('/home/jenkins/workspace') {
                     unstash 'code' 
                     script {
+                        sh 'echo Building the the application...'
                         sh 'autoreconf -fi && ./configure --with-openssl && make'
                         stash name: 'app', includes: '**/*'
                     }
@@ -29,7 +31,7 @@ pipeline {
             steps {
                 ws('/home/jenkins/workspace') {
                     script {
-                        sh 'echo Testing...'
+                        sh 'echo Executing curl tests...'
                         def curlOutput = sh(script: 'make test', returnStdout: true)
                         println "CURL Test Results:\n${curlOutput}" 
                     }    

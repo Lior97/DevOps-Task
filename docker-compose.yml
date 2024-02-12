@@ -14,7 +14,7 @@ services:
     restart: always
 
   lior-jenkins-agent:
-    image: lior-agent
+    image: lioragent
     init: true
     environment:
       - JENKINS_URL=http://jenkins-server:8080

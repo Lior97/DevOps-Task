@@ -1,18 +1,20 @@
 version: '3.8'
 
 services:
-  jenkins-server:
-    container_name: jenkins-server
-    image: jenkins/jenkins
+  lior-jenkins-server:
+    container_name: jenkins-master
+    image: lior-jenkins-master
     ports:
       - "8080:8080"
       - "50000:50000"
     networks:
       - jenkins-network
       - wan
+      - lan
+    restart: always
 
-  jenkins-slave:
-    image: lioragent:1
+  lior-jenkins-agent:
+    image: lior-agent
     init: true
     environment:
       - JENKINS_URL=http://jenkins-server:8080
@@ -31,7 +33,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: "192.168.10.0/24"
+        - subnet: "192.168.1.0/24"
 
   lan:
     driver: bridge
@@ -39,8 +41,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: "192.168.11.0/24"
-
-
-
-
+        - subnet: "192.168.2.0/24"

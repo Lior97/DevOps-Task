@@ -10,3 +10,10 @@ Few steps you need to do :
 
 4.Build
 
+*** 
+    If there is a permissions error in the first stage of pulling the curl repo you need to do the following : 
+    docker exec -it -u0 jenkins-master bash
+    then you get inside the container as a root and run this command : 
+    chmod -R 777 home
+***
+

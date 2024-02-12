@@ -3,7 +3,7 @@ version: '3.8'
 services:
   lior-jenkins-server:
     container_name: jenkins-master
-    image: lior-jenkins-master
+    image: jenkins/jenkins
     ports:
       - "8080:8080"
       - "50000:50000"

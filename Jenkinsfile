@@ -46,7 +46,7 @@ pipeline {
                 script {
                 unstash 'app'
                 archiveArtifacts artifacts: 'src/curl', allowEmptyArchive: true
-                //sh './src/curl https://google.com' // Checking if working
+                sh './src/curl https://google.com' // Checking if working
                 } 
             }
         }

@@ -30,8 +30,8 @@ pipeline {
                 ws('/home/jenkins/workspace') {
                     script {
                         sh 'echo Testing...'
-                        //def curlOutput = sh(script: 'make test', returnStdout: true)
-                        //println "CURL Test Results:\n${curlOutput}" 
+                        def curlOutput = sh(script: 'make test', returnStdout: true)
+                        println "CURL Test Results:\n${curlOutput}" 
                     }    
                 }
             }

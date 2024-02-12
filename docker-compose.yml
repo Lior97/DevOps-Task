@@ -17,7 +17,7 @@ services:
     image: lioragent
     init: true
     environment:
-      - JENKINS_URL=http://jenkins-server:8080
+      - JENKINS_URL=http://jenkins-master:8080
       - JENKINS_SECRET=f2c5d4fb308e28b3bf008572b56d0a8d328263e4f1ecace34214fcee44a9e3a3
       - JENKINS_AGENT_NAME=agent
     networks:

@@ -11,19 +11,19 @@ pipeline {
                 }
             }
         }
-        // stage('Build Application') {
-        //     agent { label 'agent' }
-        //     steps {
-        //         ws('/home/jenkins/workspace') {
-        //             unstash 'code' 
-        //             script {
-        //                 sh 'ls -l'
-        //                 sh 'autoreconf -fi && ./configure --with-openssl && make'
-        //             }
+        stage('Build Application') {
+            agent { label 'agent' }
+            steps {
+                ws('/home/jenkins/workspace') {
+                    unstash 'code' 
+                    script {
+                        sh 'autoreconf -fi && ./configure --with-openssl && make'
+                        stash name: 'app', includes: '**/*'
+                    }
                     
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
         stage('Execute CURL Tests') {
             agent { label 'agent' }
             steps {
@@ -39,25 +39,14 @@ pipeline {
     }
     post {
         success {
-            agent { label 'agent' }
-            ws('/home/jenkins/workspace') {
+            agent { label 'builtin' }
+             ws('/home/jenkins/workspace/') {
                 script {
-                    sh 'ls -l'
-                    //stash name: 'app', includes: 'src/*'
-                } 
+                unstash 'app'
                 archiveArtifacts artifacts: 'src/curl', allowEmptyArchive: true
+                //sh './src/curl https://google.com' // Checking if working
+                } 
             }
-            // agent { label 'builtin' }
-            // ws('/home/jenkins/workspace') {
-            //     script {
-            //         sh 'ls -l'
-            //         sh 'pwd'
-            //         sh 'whoami'
-            //         unstash 'app'
-            //         archiveArtifacts artifacts: 'src/curl', allowEmptyArchive: true
-            //         sh './src/curl https://google.com'
-            //     }    
-            // }
         }
     }
 }

@@ -1,4 +1,6 @@
-#!/bin/bash
+!/bin/bash
+
+DOCKER_FILE="Dockerfile"
 
 IMAGE_NAME="lioragent:1"
 
@@ -9,3 +11,6 @@ if [ $? -eq 0 ]; then
 else
     echo "Failed to build Docker image '$IMAGE_NAME'."
 fi
+
+
+
